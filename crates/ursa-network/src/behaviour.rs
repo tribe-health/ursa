@@ -128,7 +128,7 @@ pub enum BehaviourEvent {
 
 /// Composes protocols for the behaviour of the node in the network.
 #[derive(NetworkBehaviour)]
-struct InternalBehaviour<P: StoreParams> {
+pub struct InternalBehaviour<P: StoreParams> {
     /// Alive checks.
     ping: Ping,
 
@@ -724,6 +724,14 @@ impl<P: StoreParams> NetworkBehaviour for Behaviour<P> {
 
     fn new_handler(&mut self) -> Self::ConnectionHandler {
         self.inner.new_handler()
+    }
+
+    fn addresses_of_peer(&mut self, peer: &PeerId) -> Vec<Multiaddr> {
+        self.inner.addresses_of_peer(peer)
+    }
+
+    fn on_swarm_event(&mut self, event: FromSwarm<Self::ConnectionHandler>) {
+        self.inner.on_swarm_event(event);
     }
 
     fn on_connection_handler_event(
