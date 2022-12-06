@@ -126,18 +126,13 @@ pub enum BehaviourEvent {
     },
 }
 
-/// A `Networkbehaviour` that handles Ursa's different protocol implementations.
-///
-/// The poll function must have the same signature as the NetworkBehaviour
-/// function and will be called last within the generated NetworkBehaviour implementation.
-///
-/// The events generated [`BehaviourEvent`].
+/// Composes protocols for the behaviour of the node in the network.
 #[derive(NetworkBehaviour)]
-pub struct InternalBehaviour<P: StoreParams> {
+struct InternalBehaviour<P: StoreParams> {
     /// Alive checks.
     ping: Ping,
 
-    // Identify and exchange info with other peers.
+    /// Identify and exchange info with other peers.
     identify: Identify,
 
     /// autonat
@@ -286,7 +281,14 @@ impl<P: StoreParams> InternalBehaviour<P> {
     }
 }
 
+/// A `Networkbehaviour` that handles Ursa's different protocol implementations.
+///
+/// The poll function must have the same signature as the NetworkBehaviour
+/// function and will be called last within the generated NetworkBehaviour implementation.
+///
+/// The events generated [`BehaviourEvent`].
 pub struct Behaviour<P: StoreParams> {
+    /// Set of protocols that define the node's behaviour. See [`InternalBehaviour`].
     inner: InternalBehaviour<P>,
 
     /// Ursa's emitted events.
