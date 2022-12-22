@@ -58,8 +58,6 @@ variable "droplet_size" {
 #   Misc    #
 #############
 
-# export variables in the format `TF_VAR_xyz` to expose them to terraform
-# TF_VAR_do_token=
 variable "do_token" {
   description = "DigitalOcean API token"
 }
